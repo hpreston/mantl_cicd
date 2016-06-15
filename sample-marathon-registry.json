@@ -1,0 +1,36 @@
+{
+  "container": {
+    "docker": {
+      "forcePullImage": false,
+      "image": "registry:2.4.1",
+      "network": "BRIDGE",
+      "parameters": [],
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 0
+        }
+      ],
+      "privileged": false
+    },
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/var/lib/registry",
+        "hostPath": "/mount/mantl-data/cicd-registry/var/lib/registry",
+        "mode": "RW"
+      }
+    ]
+  },
+  "cpus": 1,
+  "env": {
+  },
+  "healthChecks": [
+  ],
+  "id": "/cicd/registry",
+  "instances": 1,
+  "labels": {
+    "traefik.frontend.passHostHeader": "true"
+  },
+  "mem": 4096
+}

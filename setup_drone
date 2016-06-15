@@ -1,0 +1,15 @@
+echo Please provide basic details for your Drone install.
+echo
+echo "What is the Application or Client ID for the GitLab Application?  "
+read clientid
+echo
+
+export GITLAB_CLIENT_ID="$clientid"
+
+echo
+echo "What is the Application or Client Secret for the GitLab Application?  "
+read clientsecret
+echo
+
+export GITLAB_CLIENT_SECRET="$clientsecret"
+

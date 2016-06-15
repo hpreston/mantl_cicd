@@ -1,0 +1,26 @@
+---
+
+ - hosts: role=worker
+   vars:
+     nfsserver: req-nfs2.csc.richfield.cisco.com
+     nfspath: /nfs_data/mantl-green-data
+     nfsmount: /mount/mantl-data/
+     nfsoptions:
+
+   tasks:
+   - name: install nfs client
+     action: yum pkg=nfs-utils state=present
+
+   - name: Ensure rpcbind is running (CentOS)
+     action: service name=rpcbind state=started enabled=yes
+
+   - name: Ensure {{nfsmount}} directory exists
+     action: file path={{nfsmount}} state=directory
+
+   - shell: if [ -z "$nfsoptions" ]; then  echo rw,sync,nfsvers=3; else echo $nfsoptions; fi
+     register: _nfsopts
+     sudo: false
+     connection: local
+
+   - name: configure /etc/fstab on clients
+     action: mount name={{nfsmount}} src={{nfsserver}}:{{nfspath}} fstype=nfs opts={{_nfsopts.stdout}} state=mounted

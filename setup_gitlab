@@ -1,0 +1,13 @@
+echo Please provide basic details to setup GitLab.
+echo
+echo "What password should the default admin (root) have?  "
+read root_password
+echo
+echo "What password should the user devuser have?  "
+read devuser_password
+echo
+
+
+export GITLAB_ROOT_PASSWORD="$root_password"
+export GITLAB_DEVUSER_PASSWORD="$devuser_password"
+

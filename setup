@@ -1,0 +1,40 @@
+
+echo Please provide basic details on your Mantl install.
+echo
+echo "What is the address of your Control Servers?  "
+echo "eg: control.mantl.internet.com"
+read control_address
+echo
+echo "What is the username for your Mantl account?  "
+read mantl_user
+echo
+echo
+echo "What is the password for your Mantl account?  "
+read mantl_password
+echo
+echo
+echo "What is the Traefik domain for your deployed apps?  "
+read mantl_domain
+echo
+
+export MANTL_CONTROL="$control_address"
+export MANTL_USER="$mantl_user"
+export MANTL_PASSWORD="$mantl_password"
+export MANTL_DOMAIN="$mantl_domain"
+
+echo
+echo "Deployment name would you like to use for the CICD Apps?  "
+echo "    For example, if you enter 'cicd' you will access GitLab at http://cicd-gitlab.$MANTL_DOMAIN"
+read deployment_name
+echo
+
+
+export DEPLOYMENT_NAME="$deployment_name"
+
+echo "Marathon API calls will be sent to: "
+echo "https://$MANTL_CONTROL:8080/"
+
+echo "Once deployed, applications will be available at: "
+echo "    GitLab:            http://$DEPLOYMENT_NAME-gitlab.$MANTL_DOMAIN"
+echo "    Docker Registry:   http://$DEPLOYMENT_NAME-registry.$MANTL_DOMAIN"
+echo "    Drone:             http://$DEPLOYMENT_NAME-drone.$MANTL_DOMAIN"
