@@ -1,55 +1,56 @@
 {
   "container": {
     "docker": {
-      "forcePullImage": false, 
-      "image": "drone/drone:0.4", 
-      "network": "BRIDGE", 
-      "parameters": [], 
+      "forcePullImage": false,
+      "image": "drone/drone:0.4",
+      "network": "BRIDGE",
+      "parameters": [],
       "portMappings": [
         {
-          "containerPort": 8000, 
+          "containerPort": 8000,
           "hostPort": 0
         }
-      ], 
+      ],
       "privileged": false
-    }, 
-    "type": "DOCKER", 
+    },
+    "type": "DOCKER",
     "volumes": [
       {
-        "containerPath": "/var/run/docker.sock", 
-        "hostPath": "/var/run/docker.sock", 
+        "containerPath": "/var/run/docker.sock",
+        "hostPath": "/var/run/docker.sock",
         "mode": "RW"
-      }, 
+      },
       {
-        "containerPath": "/var/lib/drone", 
-        "hostPath": "/var/lib/drone", 
+        "containerPath": "/var/lib/drone",
+        "hostPath": "/mount/mantl-data/cicd-drone/var/lib/drone",
         "mode": "RW"
       }
+
     ]
-  }, 
-  "cpus": 1, 
+  },
+  "cpus": 1,
   "env": {
-    "DEBUG": "false", 
-    "PLUGIN_FILTER": "plugins/*", 
-    "REMOTE_CONFIG": "https://github.com?client_id=b0b3b55964632fb6e3ba&client_secret=23c5ebf6e5b5cf51836033a5e30315e2de48192e", 
-    "REMOTE_DRIVER": "github"
-  }, 
+    "DEBUG": "false",
+    "PLUGIN_FILTER": "plugins/*",
+    "REMOTE_CONFIG": "http://cicd-gitlab.green.browndogtech.com?client_id=0d8311296669bcaabb241e46aa34ba54825287cd452d6842b14f432adf361978&client_secret=72546071a7a2127d6e4ad2769e98093ca501c5e9d8548d0059b7ebd489a0bdf9",
+    "REMOTE_DRIVER": "gitlab"
+  },
   "healthChecks": [
     {
-      "gracePeriodSeconds": 300, 
-      "ignoreHttp1xx": false, 
-      "intervalSeconds": 60, 
-      "maxConsecutiveFailures": 3, 
-      "path": "/login", 
-      "portIndex": 0, 
-      "protocol": "HTTP", 
+      "gracePeriodSeconds": 300,
+      "ignoreHttp1xx": false,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "path": "/login",
+      "portIndex": 0,
+      "protocol": "HTTP",
       "timeoutSeconds": 20
     }
-  ], 
-  "id": "cicd-drone", 
-  "instances": 1, 
+  ],
+  "id": "/cicd/drone",
+  "instances": 1,
   "labels": {
     "traefik.frontend.passHostHeader": "true"
-  }, 
-  "mem": 64
+  },
+  "mem": 4096
 }
