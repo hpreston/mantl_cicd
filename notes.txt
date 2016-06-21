@@ -1,0 +1,45 @@
+# ToDo - create NFS mount on all Worker Nodes for keeping files together
+
+curl -k -X POST -u $MANTL_USER:$MANTL_PASSWORD https://$MANTL_CONTROL:8080/v2/apps \
+-H "Content-type: application/json" \
+-d @drone-browndog-github.json \
+| python -m json.tool
+
+
+GitLab
+curl -X POST "http://cicd-gitlab.green.browndogtech.com/api/v3/session?login=root&password=Pass4word"
+
+# ToDo - Add creating user account instead of doing everythign as admin
+- setup
+- setup gitlab
+- Install GitLab Application
+- Manually create Applicaiton Definition for Drone
+
+Drone
+- Setup Drone
+- Install Drone
+
+unix:///var/run/docker.sock
+tcp://10.101.129.231:2375
+
+Registry
+- Install Registry
+- Update Docker on workers to allow insecure registry
+    ansible green-worker* --sudo -m lineinfile -a "dest=/etc/systemd/system/docker.service.d/10-options.conf line=\"Environment='INSECURE_REGISTRY=--insecure-registry cicd-registry.green.browndogtech.com'\""
+curl cicd-registry.green.browndogtech.com/v2/_catalog
+
+# ToDo - Create Sample Project and Repo in GitLab - DockerFile
+# ToDo - Create Sample .drone file for sample Project
+# ToDo - Figure out webhook container for drone to use (pull in Bens From Quay?)
+
+Links
+- http://www.cloudkb.net/install-private-docker-registry-on-centos-7/
+- https://docs.docker.com/engine/admin/configuring/
+- http://manfrix.blogspot.com/2015/03/apache-mesos-mesos-marathon-docker.html
+- https://mesosphere.github.io/marathon/docs/native-docker-private-registry.html
+- https://gist.github.com/IanSaunders/17be1506e19a3723cdd0
+- https://github.com/vallard/Continuous-Integration-Example
+- https://docs.docker.com/registry/spec/api/
+- https://docs.docker.com/registry/insecure/
+- https://blog.docker.com/2013/07/how-to-use-your-own-registry/
+- http://docs.gitlab.com/ce/api/README.html
