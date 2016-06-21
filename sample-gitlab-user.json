@@ -1,0 +1,7 @@
+{
+  "username": "USERNAME",
+  "email": "EMAIL",
+  "name": "FNAME LNAME",
+  "password": "PASSWORD",
+  "can_create_project": true
+}
