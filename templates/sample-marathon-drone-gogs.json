@@ -1,0 +1,56 @@
+{
+  "container": {
+    "docker": {
+      "forcePullImage": false,
+      "image": "drone/drone:0.4",
+      "network": "BRIDGE",
+      "parameters": [],
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 0
+        }
+      ],
+      "privileged": false
+    },
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/var/run/docker.sock",
+        "hostPath": "/var/run/docker.sock",
+        "mode": "RW"
+      },
+      {
+        "containerPath": "/var/lib/drone",
+        "hostPath": "VOLUMEPATH/DEPLOYMENTNAME-drone/var/lib/drone",
+        "mode": "RW"
+      }
+
+    ]
+  },
+  "cpus": 1,
+  "env": {
+    "DEBUG": "false",
+    "PLUGIN_FILTER": "plugins/*",
+    "REMOTE_CONFIG": "http://DEPLOYMENTNAME-gogs.MANTLDOMAIN?open=true",
+    "REMOTE_DRIVER": "gogs"
+  },
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "ignoreHttp1xx": false,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "path": "/login",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 20
+    }
+  ],
+  "id": "/DEPLOYMENTNAME/drone",
+  "instances": 1,
+  "labels": {
+    "traefik.frontend.passHostHeader": "true"
+  },
+  "mem": 128
+}
