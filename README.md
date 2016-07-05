@@ -40,7 +40,7 @@ You will need the following details about your Mantl Environment to deploy:
 * The Traefik domain where deployed applications are available
 * A Deployment Name for the installation.  This needs to be unique in your environment
   * _Each applicaiton will be deployed within Marathon under this name_
-* A path on the Mesos Worker nodes where container volumes can be created
+* **A path on the Mesos Worker nodes where container volumes can be created**
   * Though not required to install, it is suggested this path be a shared mount on ALL worker nodes
   * Using an NFS mount is one easy way to accomplish this
     * Included in this repo is [nfs-setup.yml](nfs-setup.yml), an Ansible Playbook that can be used to add an NFS mount to all worker nodes
