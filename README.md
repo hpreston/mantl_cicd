@@ -227,16 +227,18 @@ If you need their passwords you can use the following commands to retrieve them.
 
 Once the installation completes, you can access the tools at the URLs that were provided at completion.
 
-* Gogs is a full featured VCS that leverages git syntax and commands.  More details can be found at [http://gogs.io].
-* For informaiton on using Drone, see [http://readme.drone.io]
+* Gogs is a full featured VCS that leverages git syntax and commands.  More details can be found at http://gogs.io.
+* For informaiton on using Drone, see http://readme.drone.io
 * Docker Registry is deployed without any authentication or security.  You'll need to configure your client to support this setup.
   * **_ToDo - Add docs and details here_**
 
 Here are some screenshots showing the main interfaces.
 
-** Gogs Interface**
+**Gogs Interface**
+
 ![Gogs Interface](images/gogs_ui_1.png)
 
-** Drone Interface**
+**Drone Interface**
+
 ![Drone Interface](images/drone_ui_1.png)
 
