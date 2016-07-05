@@ -1,0 +1,52 @@
+{
+  "container": {
+    "docker": {
+      "forcePullImage": false,
+      "image": "gogs/gogs:0.9.13",
+      "network": "BRIDGE",
+      "parameters": [],
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 0
+        },
+        {
+          "containerPort": 22,
+          "hostPort": 0
+        }
+      ],
+      "privileged": false
+    },
+    "type": "DOCKER",
+    "volumes": [
+      {
+          "containerPath": "/data",
+          "hostPath": "VOLUMEPATH/DEPLOYMENTNAME-gogs/data",
+          "mode": "RW"
+      }
+    ]
+  },
+  "cpus": 2,
+  "env": {
+  },
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "ignoreHttp1xx": false,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "path": "/",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 20
+    }
+
+  ],
+  "id": "/DEPLOYMENTNAME/gogs",
+  "instances": 1,
+  "labels": {
+    "traefik.frontend.passHostHeader": "true",
+    "traefik.portIndex": "0"
+  },
+  "mem": 2048
+}

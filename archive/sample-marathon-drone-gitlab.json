@@ -32,7 +32,7 @@
   "env": {
     "DEBUG": "false",
     "PLUGIN_FILTER": "plugins/*",
-    "REMOTE_CONFIG": "http://cicd-gitlab.green.browndogtech.com?client_id=0d8311296669bcaabb241e46aa34ba54825287cd452d6842b14f432adf361978&client_secret=72546071a7a2127d6e4ad2769e98093ca501c5e9d8548d0059b7ebd489a0bdf9",
+    "REMOTE_CONFIG": "http://DEPLOYMENTNAME-gitlab.MANTLDOMAIN?client_id=GITCLIENTID&client_secret=GITCLIENTSECRET",
     "REMOTE_DRIVER": "gitlab"
   },
   "healthChecks": [
@@ -47,7 +47,7 @@
       "timeoutSeconds": 20
     }
   ],
-  "id": "/cicd/drone",
+  "id": "/DEPLOYMENTNAME/drone",
   "instances": 1,
   "labels": {
     "traefik.frontend.passHostHeader": "true"

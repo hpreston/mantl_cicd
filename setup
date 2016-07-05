@@ -1,4 +1,5 @@
 
+echo "****************************************************"
 echo Please provide basic details on your Mantl install.
 echo
 echo "What is the address of your Control Servers?  "
@@ -16,11 +17,27 @@ echo
 echo "What is the Traefik domain for your deployed apps?  "
 read mantl_domain
 echo
+echo
+echo "What path on the Workers should container Volumes be created at?  "
+echo "  Leave off the trailing slash.  Example '/mount/mantl-data' "
+echo "  This is required to maintain state between container restarts. "
+echo "  It is suggested to provide a shared path across all Worker Nodes.  "
+echo "  Example: An NFS Mounted Directory."
+echo " "
+echo " ** FORMATING NOTE:  **"
+echo "    Because this data is later used to update the template files, "
+echo "    you must double escape the '/' in the paths.   "
+echo "    so this is the correct input for the example path: "
+echo "    \\\\/mount\\\\/mantl-data"
+echo " "
+read volumepath
+echo
 
 export MANTL_CONTROL="$control_address"
 export MANTL_USER="$mantl_user"
 export MANTL_PASSWORD="$mantl_password"
 export MANTL_DOMAIN="$mantl_domain"
+export VOLUME_PATH="$volumepath"
 
 echo
 echo "Deployment name would you like to use for the CICD Apps?  "
@@ -28,13 +45,72 @@ echo "    For example, if you enter 'cicd' you will access GitLab at http://cicd
 read deployment_name
 echo
 
-
 export DEPLOYMENT_NAME="$deployment_name"
 
 echo "Marathon API calls will be sent to: "
 echo "https://$MANTL_CONTROL:8080/"
+echo
 
+##############################################################
+# Ask user for Deployment Configuration Informaiton
+echo "****************************************************"
+echo "Please provide the following information on your Development Tools Users."
+echo
+echo "Admin Username for Development Tools?  "
+echo "  Username of admin is NOT allowed"
+read dev_admin
+echo
+while [ "$dev_admin" == "admin" ]
+do
+    echo "Admin Username for Development Tools?  "
+    echo "  Username of admin is NOT allowed"
+    read dev_admin
+    echo
+done
+echo "Admin Password for Development Tools?  "
+echo "  * Input hidden "
+read -s dev_admin_password
+echo
+echo "Admin Email for Development Tools?  "
+read dev_admin_email
+echo
+echo "Username for Development Tools End User? "
+echo "  Usernames of admin or $dev_admin are NOT allowed"
+read dev_user
+echo
+while [ "$dev_user" == "admin" ] || [ "$dev_user" == "$dev_admin" ]
+do
+    echo "Username for Development Tools End User? "
+    echo "  Usernames of admin or $dev_admin are NOT allowed"
+    read dev_user
+    echo
+done
+echo "Password for Development End User? "
+echo "  * Input hidden "
+read -s dev_user_password
+echo
+echo "Email for Development End User? "
+read dev_user_email
+echo
+
+##############################################################
+# Set Variables for Pipeline Deployment
+
+export GOGS_APP_NAME="Mantl Gogs"
+export GOGS_APP_ADMIN="$dev_admin"
+export GOGS_APP_ADMIN_PASSWORD="$dev_admin_password"
+export GOGS_APP_ADMIN_EMAIL="$dev_admin_email"
+export GOGS_APP_USER="$dev_user"
+export GOGS_APP_USER_PASSWORD="$dev_user_password"
+export GOGS_APP_USER_EMAIL="$dev_user_email"
+
+export GOGS_URL=http://$DEPLOYMENT_NAME-gogs.$MANTL_DOMAIN
+export DRONE_URL=http://$DEPLOYMENT_NAME-drone.$MANTL_DOMAIN
+export REGISTRY_URL=http://$DEPLOYMENT_NAME-registry.$MANTL_DOMAIN
+
+
+echo "****************************************************"
 echo "Once deployed, applications will be available at: "
-echo "    GitLab:            http://$DEPLOYMENT_NAME-gitlab.$MANTL_DOMAIN"
-echo "    Docker Registry:   http://$DEPLOYMENT_NAME-registry.$MANTL_DOMAIN"
-echo "    Drone:             http://$DEPLOYMENT_NAME-drone.$MANTL_DOMAIN"
+echo "    Gogs:              $GOGS_URL"
+echo "    Docker Registry:   $REGISTRY_URL"
+echo "    Drone:             $DRONE_URL"

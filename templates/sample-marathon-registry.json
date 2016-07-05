@@ -2,12 +2,12 @@
   "container": {
     "docker": {
       "forcePullImage": false,
-      "image": "drone/drone:0.4",
+      "image": "registry:2.4.1",
       "network": "BRIDGE",
       "parameters": [],
       "portMappings": [
         {
-          "containerPort": 8000,
+          "containerPort": 5000,
           "hostPort": 0
         }
       ],
@@ -16,24 +16,14 @@
     "type": "DOCKER",
     "volumes": [
       {
-        "containerPath": "/var/run/docker.sock",
-        "hostPath": "/var/run/docker.sock",
-        "mode": "RW"
-      },
-      {
-        "containerPath": "/var/lib/drone",
-        "hostPath": "/mount/mantl-data/cicd-drone/var/lib/drone",
+        "containerPath": "/var/lib/registry",
+        "hostPath": "VOLUMEPATH/DEPLOYMENTNAME-registry/var/lib/registry",
         "mode": "RW"
       }
-
     ]
   },
   "cpus": 1,
   "env": {
-    "DEBUG": "false",
-    "PLUGIN_FILTER": "plugins/*",
-    "REMOTE_CONFIG": "http://cicd-gitlab.MANTLDOMAIN?client_id=GITCLIENTID&client_secret=GITCLIENTSECRET",
-    "REMOTE_DRIVER": "gitlab"
   },
   "healthChecks": [
     {
@@ -41,13 +31,13 @@
       "ignoreHttp1xx": false,
       "intervalSeconds": 60,
       "maxConsecutiveFailures": 3,
-      "path": "/login",
+      "path": "/",
       "portIndex": 0,
       "protocol": "HTTP",
       "timeoutSeconds": 20
     }
   ],
-  "id": "/cicd/drone",
+  "id": "/DEPLOYMENTNAME/registry",
   "instances": 1,
   "labels": {
     "traefik.frontend.passHostHeader": "true"
